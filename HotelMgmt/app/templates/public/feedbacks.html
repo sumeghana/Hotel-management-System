@@ -1,0 +1,32 @@
+{% set curPage = 'feedbacks'%}
+{% set title = 'Feedbacks'%}
+{% include 'public/shared/header.html'%}
+
+<div class="banner" style="background-color: #1d1d1d;height:200px;">
+  <div class="container">
+    <div class="d-flex justify-content-center align-content-center align-items-center" style="height: 200px;">
+      <div>
+        <h3 class="text-center" style="color: #dfd004;">Feedbacks</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container my-5 border p-3">
+    {% for feedback in feedbacks %}
+    {% set user = getUserById(feedback["userId"]) %}
+    <div class="card w-50 my-3 shadow">
+      <div class="card-body">
+        <h5>- {{user["first_name"]}} {{user["last_name"]}}</h5>
+        <q class="ml-5">{{feedback["feedback"]}}</q>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+</section>
+
+
+
+{% include 'public/shared/footer.html'%}

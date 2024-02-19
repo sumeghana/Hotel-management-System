@@ -1,0 +1,30 @@
+{% set curPage = 'feedbacks'%}
+{% set title = 'Feedbacks'%}
+{% include 'admin/shared/header.html'%}
+
+<div id="content">
+  <!-- Top Nav  -->
+  {% include 'admin/shared/topnav.html'%}
+
+  <div class="heading">
+    <h3 class="title">{{title}}</h3>
+  </div>
+
+  <div class="container">
+    {% if feedbacks %}
+    {% for feedback in feedbacks %}
+    {% set user = getUserById(feedback["userId"]) %}
+    <div class="card w-50 my-3 shadow">
+      <div class="card-body">
+        <h5>- {{user["first_name"]}} {{user["last_name"]}}</h5>
+        <q class="ml-5">{{feedback["feedback"]}}</q>
+      </div>
+    </div>
+    {% endfor %}
+    {% else %}
+    <h4>No feedbacks yet</h4>
+    {% endif %}
+  </div>
+
+</div>
+{% include 'admin/shared/footer.html'%}

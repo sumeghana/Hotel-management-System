@@ -1,0 +1,87 @@
+{% set curPage = 'bookingconfirmation'%}
+{% set title = 'Booking Confirmation'%}
+{% include 'public/shared/header.html'%}
+
+<div class="banner" style="background-color: #1d1d1d;height:200px;">
+  <div class="container">
+    <div class="d-flex justify-content-center align-content-center align-items-center" style="height: 200px;">
+      <div>
+        <h3 class="text-center" style="color: #131205;">Booking-confirmation</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="card py-3 px-2 mt-5">
+          <h5>Booking Details</h5>
+          <table class="table table-bordered">
+            <tr>
+              <th>Check in</th>
+              <th>Check out</th>
+              <th>Room Type</th>
+              <th>Total Nights</th>
+              <th>Price per night</th>
+              <th>Amount</th>
+            </tr>
+            <tr>
+              <td>{{check_in_date.strftime("%d-%m-%Y %H:%M %p")}}</td>
+              <td>{{check_out_date.strftime("%d-%m-%Y %H:%M %p")}}</td>
+              <td>{{roomType["roomType"]}}</td>
+              <td>{{nights}}</td>
+              <td>$ {{'%0.2f ' % room["pricePerNight"]}}</td>
+              <td>$ {{'%0.2f ' % totalAmount}}</td>
+            </tr>
+            <tr>
+              <td colspan="5" class="text-right"><strong>Total Amount</strong></td>
+              <td><strong>$ {{'%0.2f ' % totalAmount}}</strong></td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card p-1 mt-5">
+          <form action="bookroom" method="post">
+  
+            <input type="hidden" name="roomId" value="{{room['_id']}}">
+            <input type="hidden" name="check_in_date" value="{{check_in_date}}">
+            <input type="hidden" name="check_out_date" value="{{check_out_date}}">
+            <input type="hidden" name="nights" value="{{nights}}">
+            <input type="hidden" name="pricePerNight" value="{{room["pricePerNight"]}}">
+            <input type="hidden" name="totalAmount" value="{{totalAmount}}">
+  
+            <div class="h5 m-3 text-center">Booking for {{nights}} nights</div>
+            <div class="h5 m-3 text-center">Pay Now: $ {{totalAmount}}</div>
+            <div class="m-2 mt-3">
+              <label class="cardNumber">Card Number</label>
+              <input type="number" name="cardNumber" id="cardNumber" placeholder="Enter Card Number" class="form-control"
+                required>
+            </div>
+            <div class="m-2 mt-3">
+              <label class="nameOnCard">Name on Card</label>
+              <input type="text" name="nameOnCard" id="nameOnCard" placeholder="Enter Name on Card" class="form-control"
+                required>
+            </div>
+            <div class="m-2 mt-3">
+              <label class="cvv">CVV</label>
+              <input type="number" name="cvv" id="cvv" placeholder="Enter CVV" class="form-control" required>
+            </div>
+            <div class="m-2 mt-3">
+              <label class="expireDate">Expire Date</label>
+              <input type="text" name="expireDate" id="expireDate" placeholder="Enter Expire Date (MM/YY)"
+                class="form-control" required>
+            </div>
+            <div class="mt-3 ms-2 me-2">
+              <input type="submit" value="Pay and Book" class="btn w-100" style="background-color: #3333ff;color:white">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% include 'public/shared/footer.html'%}

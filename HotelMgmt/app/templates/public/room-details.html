@@ -1,0 +1,76 @@
+{% set curPage = 'roomdetails'%}
+{% set title = 'Room Details'%}
+{% include 'public/shared/header.html'%}
+
+<div class="banner" style="background-color: #1d1d1d;height:200px;">
+  <div class="container">
+    <div class="d-flex justify-content-center align-content-center align-items-center" style="height: 200px;">
+      <div>
+        <h3 class="text-center" style="color: #131312;">Room Details</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container my-5 border p-3 shadow">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    {% for category,message in messages %}
+    <div class="alert alert-{{category}} alert-dismissible fade w-50 show" role="alert">
+      {{message}}.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    <div class="row">
+      <div class="col-md-6">
+        <img src="../../static/uploads/{{room['roomImagePath']}}" alt="" class="img-thumbnail" style="width:100%;">
+      </div>
+      <div class="col-md-6 py-5">
+        <h4 class="mt-2">{{roomType['roomType']}}</h4>
+        <h5 class="mt-4">{{room['bedType']}}</h5>
+        <h5 class="mt-4">$ {{room['pricePerNight']}} / per night</h5>
+        <p class="border p-3">{{room['amenities']}}</p>
+      </div>
+    </div>
+    <div class="card border shadow mt-3">
+      <div class="card-body">
+
+        <h5 class="text-center border-bottom mb-4">Check Availability</h5>
+        {% if session['role'] == "customer" %}
+        <form action="/check-availabiity" method="post">
+          <div class="form-group row">
+            <div class="col-md-3">
+              <label for="">Check-in</label>
+              <input type="datetime-local" class="form-control" name="check_in_date" id="check_in_date" value="{{request.args.get("check_in_date")}}" required>
+            </div>
+            <div class="col-md-3">
+              <label for="">Check-out</label>
+              <input type="datetime-local" class="form-control" name="check_out_date" id="check_out_date" value="{{request.args.get("check_out_date")}}" required>
+            </div>
+            <div class="col-md-3">
+              <label for="">Guests</label>
+              <input type="number" min="1" class="form-control" name="guests" id="guests" value="{{request.args.get("guests")}}" required>
+            </div>
+            <div class="col-md-3">
+              <label for=""></label>
+              <input type="hidden" name="roomId" value="{{request.args.get('roomId')}}">
+              <input type="submit" value="Check Availability" class="form-control btn text-light mt-2"
+                style="background-color: #85018c;">
+            </div>
+          </div>
+        </form>
+        {% else %}
+        <a href="/login" class="btn btn-link">Login to check room Availability</a>
+        {% endif%}
+      </div>
+    </div>
+  </div>
+
+</section>
+
+{% include 'public/shared/footer.html'%}

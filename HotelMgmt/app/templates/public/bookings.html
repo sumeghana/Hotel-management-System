@@ -1,0 +1,60 @@
+{% set curPage = 'bookimgs'%}
+{% set title = 'Bookings'%}
+{% include 'public/shared/header.html'%}
+
+<div class="banner" style="background-color: #1d1d1d;height:200px;">
+  <div class="container">
+    <div class="d-flex justify-content-center align-content-center align-items-center" style="height: 200px;">
+      <div>
+        <h3 class="text-center" style="color: #0e0e0d;">View bookings</h3>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+  <div class="container my-5 border p-3 shadow">
+    <div class="table-responsive">
+      <table class="table table-bordered" id="table">
+        <thead>
+          <tr>
+            <th>S.No</th>
+            <th>Booking Id</th>
+            <th>Room Type</th>
+            <th>Check-in&nbsp;date</th>
+            <th>Check-out&nbsp;date</th>
+            <th>Price&nbsp;(per&nbsp;night)</th>
+            <th>Paid&nbsp;Amount</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for booking in bookings %}
+          {% set room = getRoomById(booking['roomId'])%}
+          {% set roomType = getRoomTypeById(room["roomTypeId"])%}
+          <tr>
+            <td>{{loop.index}}</td>
+            <td>{{booking['_id']}}</td>
+            <td>{{roomType['roomType']}}</td>
+            <td>{{booking['check_in_date'].strftime("%d-%m-%Y %H:%M %p")}}</td>
+            <td>{{booking['check_out_date'].strftime("%d-%m-%Y %H:%M %p")}}</td>
+            <td>$ {{booking['pricePerNight']}}</td>
+            <td>$ {{booking['totalAmount']}}</td>
+            <td>{{booking['status']}}</td>
+            <td>
+              <a href="/add-feedback?roomId={{room['_id']}}" class="btn btn-sm btn-info w-100">Feedbacks</a>
+              {% if booking['status'] == "Booked" %}
+              <a href="/cancel?bookingId={{booking['_id']}}" class="btn btn-sm btn-danger w-100 mt-1">Cancel</a>
+              {%endif%}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</section>
+
+{% include 'public/shared/footer.html'%}

@@ -1,0 +1,27 @@
+<nav id="sidebar">
+  <div class="sidebar-header">
+    <h3>Hotel Management</h3>
+  </div>
+
+  <ul class="list-unstyled components">
+    <p class="text-center">Menu</p>
+    <li class="{{'active' if curPage=='roomTypes' else ''}}">
+      <a href="room-types">Room Types</a>
+    </li>
+    <li class="{{'active' if curPage=='rooms' else ''}}">
+      <a href="rooms">Rooms</a>
+    </li>
+    <li class="{{'active' if curPage=='bookings' else ''}}">
+      <a href="bookings">Bookings</a>
+    </li>
+    <li class="{{'active' if curPage=='avail' else ''}}">
+      <a href="availability">Availability</a>
+    </li>
+    <li class="{{'active' if curPage=='check' else ''}}">
+      <a href="check">Check-In/Check-Out</a>
+    </li>
+    <li class="{{'active' if curPage=='enquiries' else ''}}">
+      <a href="enquiries">Enquiries</a>
+    </li>
+  </ul>
+</nav>

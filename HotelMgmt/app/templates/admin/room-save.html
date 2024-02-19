@@ -1,0 +1,78 @@
+{% set curPage = 'addroom'%}
+{% set title = 'Save Room'%}
+{% include 'admin/shared/header.html'%}
+
+<div id="content">
+  <!-- Top Nav  -->
+  {% include 'admin/shared/topnav.html'%}
+
+  <div class="heading">
+    <h3 class="title">{{title}}</h3>
+  </div>
+
+  <div class="p-4 border mt-3">
+
+    <form action="{{'add-room' if room['_id'] == null else 'edit-room'}}" method="post" enctype="multipart/form-data">
+
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="roomTypeId">Room Type</label>
+          <select name="roomTypeId" id="roomTypeId" class="form-control" required>
+            <option value="">--select room type--</option>
+            {% for roomType in roomTypes %}
+            <option value="{{roomType['_id']}}" {{"selected" if room['roomTypeId'] == roomType['_id'] else ""}}>{{roomType['roomType']}}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label for="roomNo">Room No</label>
+          <input type="text" name="roomNo" id="roomNo" class="form-control" value="{{room['roomNo']}}" required>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="guestCapacity">Guest Capacity</label>
+          <input type="number" name="guestCapacity" id="guestCapacity" class="form-control" value="{{room['guestCapacity']}}" required>
+        </div>
+        <div class="col-md-6">
+          <label for="bedType">Bed type</label>
+          <input type="text" name="bedType" id="bedType" class="form-control" value="{{room['bedType']}}" required>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="pricePerNight">Price per night</label>
+          <input type="text" name="pricePerNight" id="pricePerNight" class="form-control" value="{{room['pricePerNight']}}" required>
+        </div>
+        <div class="col-md-6">
+          <label for="roomImage">Room image</label>
+          <div class="custom-file">
+            <input type="file" class="custom-file-input" name="roomImage" id="roomImage">
+            <label class="custom-file-label" for="roomImage">Choose file</label>
+            <input type="hidden" name="oldImagePath" value="{{room['roomImagePath']}}">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-12">
+          <label for="amenities">Amenities</label>
+          <textarea name="amenities" id="amenities" rows="5" class="form-control">{{room['amenities']}}</textarea>
+        </div>
+      </div>
+
+      <div class="form-group row">
+        <div class="col-md-6">
+          <input type="hidden" name="roomId" value="{{room['_id']}}">
+          <input type="submit" class="btn btn-success form-control" value="Save">
+        </div>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+{% include 'admin/shared/footer.html'%}

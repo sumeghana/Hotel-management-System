@@ -1,0 +1,48 @@
+{% set curPage = 'response'%}
+{% set title = 'Query Response'%}
+{% include 'admin/shared/header.html'%}
+
+<div id="content">
+  <!-- Top Nav  -->
+  {% include 'admin/shared/topnav.html'%}
+
+  <div class="heading">
+    <h3 class="title">{{title}}</h3>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category,message in messages %}
+  <div class="alert alert-{{category}} alert-dismissible fade w-50 show" role="alert">
+    {{message}}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <div class="container">   
+  
+    <form action="query-response" method="POST">
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="">Query</label>
+          <textarea name="query" id="" class="form-control" readonly>{{enquiry["query"]}}</textarea>
+        </div>
+      </div>
+      <div class="form-group row">
+        <div class="col-md-6">
+          <label for="">Response</label>
+          <textarea name="response" id="" class="form-control"></textarea>
+          <input type="hidden" name="enquiryId" value="{{enquiry["_id"]}}">
+        </div>
+      </div>
+      <input type="submit" class="btn btn-primary" value="Post Response">
+    </form>
+    
+  </div>
+
+</div>
+{% include 'admin/shared/footer.html'%}

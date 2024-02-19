@@ -1,0 +1,59 @@
+{% set curPage = 'enquiries'%}
+{% set title = 'Enquiries'%}
+{% include 'admin/shared/header.html'%}
+
+<div id="content">
+  <!-- Top Nav  -->
+  {% include 'admin/shared/topnav.html'%}
+
+  <div class="heading">
+    <h3 class="title">{{title}}</h3>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category,message in messages %}
+  <div class="alert alert-{{category}} alert-dismissible fade w-50 show" role="alert">
+    {{message}}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <div class="table-responsive mt-5">   
+  
+    <!-- View Rooms -->
+    <table class="table table-bordered" id="table">
+      <thead>
+        <tr>
+          <th style="width: 8%;">S.No</th>
+          <th>Enquiry Id</th>
+          <th>Customer</th>
+          <th>Query</th>
+          <th>Response</th>
+          <th style="width: 10%;">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for query in enquiries %}
+        {% set user = getUserById(query["userId"])%}
+        <tr>
+          <td>{{loop.index}}</td>
+          <td>{{query['_id']}}</td>
+          <td>{{user['first_name']}} {{user['last_name']}}</td>
+          <td>{{query["query"]}}</td>
+          <td>{{query["response"]}}</td>
+          <td>
+            <a href="query-response?enquiryId={{query['_id']}}" class="btn btn-sm btn-primary w-100">Post response</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% include 'admin/shared/footer.html'%}

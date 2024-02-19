@@ -1,0 +1,5 @@
+_id,amenities,bedType,guestCapacity,pricePerNight,roomImagePath,roomNo,roomStatus,roomTypeId
+638a7c1a2ce64b0457b6057e,"TV, Visitor Room, Free Wifi",1 King Size Bed,2,199,1d-bed.jpg,102,true,638599db97cbd10b6654b9d9
+644b2e5f7acd3e9bf41b7df7,Wifi,1 small Bed,1,100,small-bedroom-ideas-03.webp,105,true,63859cd25b55fb2b029ac504
+644b38427acd3e9bf41b7e0c,,2 bed room,3,140,bd-room.jpg,106,true,63859ca65b55fb2b029ac502
+644c162e9a8f5c03bdc6a74e,amenities,single bed,1,110,1d-bed.jpg,108,true,63859cd25b55fb2b029ac504

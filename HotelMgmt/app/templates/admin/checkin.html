@@ -1,0 +1,121 @@
+{% set curPage = 'check'%}
+{% set title = 'Check In/Check Out'%}
+{% include 'admin/shared/header.html'%}
+
+<div id="content">
+  <!-- Top Nav  -->
+  {% include 'admin/shared/topnav.html'%}
+
+  <div class="heading">
+    <h3 class="title">{{title}}</h3>
+  </div>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category,message in messages %}
+  <div class="alert alert-{{category}} alert-dismissible fade w-50 show" role="alert">
+    {{message}}.
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
+  <div class="table-responsive mt-5">   
+  
+    <!-- View Rooms -->
+    <table class="table table-bordered" id="table">
+      <thead>
+        <tr>
+          <th style="width: 8%;">S.No</th>
+          <th>Booking Id</th>
+          <th>Customer Name</th>
+          <th>Room&nbsp;No</th>
+          <th>Check&nbsp;in </th>
+          <th>Check&nbsp;out </th>
+          <th>Deposit Amount</th>
+          <th>Check-In</th>
+          <th>Check-Out</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for booking in bookings %}
+        {% set user = getUserById(booking["userId"])%}
+        {% set room = getRoomById(booking["roomId"])%}
+        {% if booking["status"] == "Booked" %}
+        <tr>
+          <td>{{loop.index}}</td>
+          <td>{{booking['_id']}}</td>
+          <td>{{user['first_name']}} {{user['last_name']}}</td>
+          <td>{{room["roomNo"]}}</td>
+          <td>{{booking["check_in_date"].strftime("%d-%m-%Y")}}</td>
+          <td>{{booking["check_out_date"].strftime("%d-%m-%Y")}}</td>
+          <td>$ {{booking["depositAmount"]}}</td>
+          <td>
+            <!-- <a href="booking-details={{booking['_id']}}" class="btn btn-sm btn-primary w-100">View&nbsp;Details</a> -->
+            {% if booking['status'] == "Booked" and booking['depositAmount']== 0 %}
+            
+            <button onclick="document.getElementById('myDialog').show()">Check-In</button>
+        <dialog id="myDialog">
+            <form>
+                <label>Enter Deposit Amount:</label>
+                <input type="text" id="textbox" name="deposit">
+                <button type="button" onclick="submitCheckIn()">Submit</button>
+            </form>
+        </dialog>
+
+        <script>
+        function submitCheckIn() {
+        var depositAmount = document.getElementById('textbox').value;
+        var bookingId = "{{booking['_id']}}"; // replace this with the actual booking ID
+
+        // construct the URL with the booking ID and deposit amount
+        var url = 'checkin?bookingId=' + bookingId + '&depositAmount=' + depositAmount;
+
+        // submit the form by navigating to the URL
+        window.location.href = url;
+         }
+        </script>
+            {%endif%}
+          </td>
+          <td>
+            <!-- <a href="booking-details={{booking['_id']}}" class="btn btn-sm btn-primary w-100">View&nbsp;Details</a> -->
+            {% if booking['status'] == "Booked" and booking['depositAmount']!= 0 %}
+            
+            <button onclick="document.getElementById('myDialog1').show()">Check-Out</button>
+        <dialog id="myDialog1">
+            <form>
+                <label>Enter Booking ID:</label>
+                <input type="text" id="bookingid" name="bookingid">
+            </br>
+                <label>Enter Extra Charges:</label>
+                <input type="text" id="charge" name="deposit">
+            </br>
+                <button type="button" onclick="submitCheckout()">Submit</button>
+            </form>
+        </dialog>
+
+        <script>
+        function submitCheckout() {
+        var charges = document.getElementById('charge').value;
+        var bookingId = document.getElementById('bookingid').value;
+        var depositAmount="{{booking['depositAmount']}}";
+        var url = 'checkout?bookingId=' + bookingId + '&charges=' + charges;
+        // submit the form by navigating to the URL
+        window.location.href = url;
+         }
+        </script>
+            {%endif%}
+          </td>
+          </td>
+        </tr>
+        {% endif %}
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+{% include 'admin/shared/footer.html'%}
